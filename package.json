@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nithincvpoyyil/PnPIDBClientStorageWrapper.git"
+    "url": "git+https://github.com/nithincvpoyyil/PnPIDBCache.git"
   },
   "bugs": {
-    "url": "https://github.com/nithincvpoyyil/PnPIDBClientStorageWrapper/issues"
+    "url": "https://github.com/nithincvpoyyil/PnPIDBCache/issues"
   },
-  "homepage": "https://github.com/nithincvpoyyil/PnPIDBClientStorageWrapper#readme"
+  "homepage": "https://github.com/nithincvpoyyil/PnPIDBCache#readme"
 }
