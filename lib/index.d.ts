@@ -1,3 +1,4 @@
 import { staleWhileRevalidate, cacheFirst, cacheOnly, staleWhileRevalidateWithExpiry } from './IDBCacheStrategies';
-export { staleWhileRevalidate, cacheFirst, cacheOnly, staleWhileRevalidateWithExpiry };
+import { IDBCaching } from './IDBCaching';
+export { staleWhileRevalidate, cacheFirst, cacheOnly, staleWhileRevalidateWithExpiry, IDBCaching };
 export declare function test(): number;

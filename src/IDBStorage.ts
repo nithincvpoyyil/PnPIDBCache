@@ -5,8 +5,14 @@ export interface ICustomStoreParams {
   storeName: string;
 }
 
-const DEFAULT_DB_NAME = 'IDBStorgeDBForPnP';
-const DEFAULT_STORE_NAME = 'IDBStorgeDBStoreNameForPnP';
+export interface IIDBValue<T = any> {
+  expiry: Date;
+  indexedDBCache: number;
+  data: T;
+}
+
+export const DEFAULT_DB_NAME = 'IDBStorgeDBForPnP';
+export const DEFAULT_STORE_NAME = 'IDBStorgeDBStoreNameForPnP';
 
 export class IDBStorage<T = any> {
   private _idbStore: UseStore | undefined;

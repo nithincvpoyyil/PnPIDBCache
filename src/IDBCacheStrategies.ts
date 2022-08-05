@@ -1,12 +1,6 @@
-import { ICustomStoreParams, IDBStorage } from './IDBStorage';
+import { ICustomStoreParams, IDBStorage, IIDBValue } from './IDBStorage';
 
 let indexedDBStorageInstance: IDBStorage;
-
-interface IResponseDataWithExpiry<T = any> {
-  expiry: Date;
-  indexedDBCache: number;
-  data: T;
-}
 
 /**
  * Stale-while-revalidate caching strategy without expiration
@@ -93,13 +87,13 @@ export async function staleWhileRevalidateWithExpiry<T>(
   let expiryDate = expiry && typeof Date === 'object' ? expiry : new Date(new Date().getTime() + 1000 * 60 * 10); // 10 minutes
 
   if (!indexedDBStorageInstance.indexedDBError) {
-    const value = <IResponseDataWithExpiry<T>>await indexedDBStorageInstance.getItem(key);
+    const value = <IIDBValue<T>>await indexedDBStorageInstance.getItem(key);
     let isExpired = value.expiry <= new Date();
 
     if (value && value.indexedDBCache && !isExpired) {
       // update cache once we have a result
       p.then((u) => {
-        let response: IResponseDataWithExpiry = { expiry: expiryDate, data: u, indexedDBCache: 1 };
+        let response: IIDBValue = { expiry: expiryDate, data: u, indexedDBCache: 1 };
         return indexedDBStorageInstance.setItem(key, response);
       });
 
@@ -113,7 +107,7 @@ export async function staleWhileRevalidateWithExpiry<T>(
 
   // Set Cache
   if (!indexedDBStorageInstance.indexedDBError) {
-    let data: IResponseDataWithExpiry = { expiry: expiryDate, data: result, indexedDBCache: 1 };
+    let data: IIDBValue = { expiry: expiryDate, data: result, indexedDBCache: 1 };
     indexedDBStorageInstance.setItem(key, data);
   }
 
@@ -130,9 +124,9 @@ export async function staleWhileRevalidateWithExpiry<T>(
  * @param expiry - Date object for the cache expiration. If this value is  not passed, default value will be taken current time + 1 hour
  * @param dbParams - optional custom indexed db store parameters. If this value is not passed, default values will be selected
  * @returns  Promise<T>
- * 
+ *
  * Check link for more information: https://developer.chrome.com/docs/workbox/caching-strategies-overview/#cache-first-falling-back-to-network
- * 
+ *
  * @example
  * let expiry = new Date(new Date().getTme()+980000);
  * let request = sp.web.select("Title", "Description").get()
@@ -156,7 +150,7 @@ export async function cacheFirst<T>(
   let expiryDate = expiry && typeof Date === 'object' ? expiry : new Date(new Date().getTime() + 1000 * 60 * 10); // 10 minutes
 
   if (!indexedDBStorageInstance.indexedDBError) {
-    const value = <IResponseDataWithExpiry<T>>await indexedDBStorageInstance.getItem(key);
+    const value = <IIDBValue<T>>await indexedDBStorageInstance.getItem(key);
     let isExpired = value.expiry <= new Date();
 
     // Return from Cache
@@ -170,7 +164,7 @@ export async function cacheFirst<T>(
 
   // Set Cache
   if (!indexedDBStorageInstance.indexedDBError) {
-    let data: IResponseDataWithExpiry = { expiry: expiryDate, data: result, indexedDBCache: 1 };
+    let data: IIDBValue = { expiry: expiryDate, data: result, indexedDBCache: 1 };
     indexedDBStorageInstance.setItem(key, data);
   }
 
@@ -188,9 +182,9 @@ export async function cacheFirst<T>(
  * @returns  Promise<T | undefined>
  *
  * Check link for more information: https://developer.chrome.com/docs/workbox/caching-strategies-overview/#cache-only
- * 
+ *
  * @example
- * 
+ *
  * const reponse = await cacheOnly("key-1", {dbName:'myAppcacheDB',storeName:'homePage'});
  */
 export async function cacheOnly<T>(key: string, dbParams?: ICustomStoreParams): Promise<T | undefined> {
@@ -203,7 +197,7 @@ export async function cacheOnly<T>(key: string, dbParams?: ICustomStoreParams): 
   }
 
   if (!indexedDBStorageInstance.indexedDBError) {
-    const value = <IResponseDataWithExpiry<T>>await indexedDBStorageInstance.getItem(key);
+    const value = <IIDBValue<T>>await indexedDBStorageInstance.getItem(key);
     let isExpired = value.expiry <= new Date();
 
     // Return from Cache
