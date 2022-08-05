@@ -44,6 +44,9 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
 
       if (!indexedDBStorageInstance.indexedDBError) {
         indexdbData = <IIDBValue>await indexedDBStorageInstance.getItem(key);
+      }
+
+      if (!indexedDBStorageInstance.indexedDBError && indexdbData) {
         isExpired = indexdbData.expiry <= new Date();
       }
 
