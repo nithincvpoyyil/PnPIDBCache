@@ -47,7 +47,7 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
         this.on.post(async function (url: URL, result1: any) {
           let expiryDate = expireFunc(url.toString()) || new Date();
           await idbStorageWrapper.put(key, result1, expiryDate);
-          return [url, result];
+          return [url, result1];
         });
       } else {
         result = indexdbData;
