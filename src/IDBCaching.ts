@@ -1,8 +1,8 @@
 import { IQueryableInternal, Queryable, QueryablePreObserver } from '@pnp/queryable';
 import { getHashCode, dateAdd, TimelinePipe } from '@pnp/core';
-import { DEFAULT_DB_NAME, DEFAULT_STORE_NAME, IDBStorage, IIDBValue } from './IDBStorage';
+import { ICustomStoreParams, IDBStorageWrapper } from './IDBStorage';
 
-let indexedDBStorageInstance: IDBStorage;
+let idbStorageWrapper: IDBStorageWrapper;
 
 export type CacheKeyFactory = (url: string) => string;
 export type CacheExpireFunc = (url: string) => Date;
@@ -10,10 +10,11 @@ export type CacheExpireFunc = (url: string) => Date;
 export interface ICachingProps {
   keyFactory?: CacheKeyFactory;
   expireFunc?: CacheExpireFunc;
+  idbParams?: ICustomStoreParams;
 }
 
 export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
-  const { keyFactory, expireFunc } = {
+  const { keyFactory, expireFunc, idbParams } = {
     keyFactory: (url: string) => getHashCode(url.toLowerCase()).toString(),
     expireFunc: () => dateAdd(new Date(), 'minute', 24 * 60),
     ...props,
@@ -28,37 +29,28 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
     let method = init.method || '';
     //@ts-ignore
     let cacheHeader = init.headers && init?.headers['X-PnP-CacheAlways'] ? init?.headers['X-PnP-CacheAlways'] : '';
-    let indexdbData = undefined;
-    let isExpired = false;
 
     // only cache get requested data or where the CacheAlways header is present (allows caching of POST requests)
     if (/get/i.test(method) || cacheHeader) {
       //@ts-ignore
       const key = init?.headers['X-PnP-CacheKey'] ? init.headers['X-PnP-CacheKey'] : keyFactory(url.toString());
 
-      let dbParams = { dbName: DEFAULT_DB_NAME, storeName: DEFAULT_STORE_NAME };
-
-      if (!indexedDBStorageInstance) {
-        indexedDBStorageInstance = new IDBStorage(dbParams);
+      if (!idbStorageWrapper) {
+        idbStorageWrapper = new IDBStorageWrapper(idbParams);
       }
 
-      if (!indexedDBStorageInstance.indexedDBError) {
-        indexdbData = <IIDBValue>await indexedDBStorageInstance.getItem(key);
-      }
+      let indexdbData = await idbStorageWrapper.get(key);
 
-      if (!indexedDBStorageInstance.indexedDBError && indexdbData) {
-        isExpired = indexdbData.expiry <= new Date();
-      }
+      if (indexdbData == null) {
+        //  falling back to network to update cache
 
-      if (indexdbData?.indexedDBCache && !isExpired) {
-        result = indexdbData.data;
-      } else {
         this.on.post(async function (url: URL, result1: any) {
           let expiryDate = expireFunc(url.toString()) || new Date();
-          let toIDBStore: IIDBValue = { expiry: expiryDate, data: result1, indexedDBCache: 1 };
-          await indexedDBStorageInstance.setItem(key, toIDBStore);
+          await idbStorageWrapper.put(key, result1, expiryDate);
           return [url, result];
         });
+      } else {
+        result = indexdbData;
       }
     }
 
