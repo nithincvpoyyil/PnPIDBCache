@@ -1,22 +1,20 @@
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
-const tsProject = ts.createProject('tsconfig.json');
+
+const tsc = require('gulp-typescript');
+const merge = require('merge-stream');
 
 gulp.task(
   'default',
   gulp.series(
     function () {
-      return tsProject.src().pipe(tsProject()).js.pipe(gulp.dest('build'));
+      var tsProject = tsc.createProject('tsconfig.json');
+      var tsResult = gulp.src(['src/**/*.ts']).pipe(tsProject());
+      return merge(tsResult, tsResult.js).pipe(sourcemaps.write('.')).pipe(gulp.dest('./lib'));
     },
     function () {
-      return gulp
-        .src('./build/**/*.js')
-        .pipe(sourcemaps.init())
-        .pipe(terser())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./lib'));
+      return gulp.src('./lib/**/*.js').pipe(terser()).pipe(gulp.dest('./lib'));
     },
   ),
 );

@@ -16,7 +16,7 @@ export interface ICachingProps {
 export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
   const { keyFactory, expireFunc, idbParams } = {
     keyFactory: (url: string) => getHashCode(url.toLowerCase()).toString(),
-    expireFunc: () => dateAdd(new Date(), 'minute', 24 * 60),
+    expireFunc: () => dateAdd(new Date(), 'minute',1),
     ...props,
   };
 
