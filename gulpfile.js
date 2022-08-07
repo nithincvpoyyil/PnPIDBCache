@@ -11,7 +11,7 @@ gulp.task(
     function () {
       var tsProject = tsc.createProject('tsconfig.json');
       var tsResult = gulp.src(['src/**/*.ts']).pipe(tsProject());
-      return merge(tsResult, tsResult.js).pipe(sourcemaps.write('.')).pipe(gulp.dest('./lib'));
+      return merge(tsResult, tsResult.js).pipe(gulp.dest('./lib'));
     },
     function () {
       return gulp.src('./lib/**/*.js').pipe(terser()).pipe(gulp.dest('./lib'));

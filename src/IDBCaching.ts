@@ -4,6 +4,8 @@ import { ICustomStoreParams, IDBStorageWrapper } from './IDBStorage';
 
 let idbStorageWrapper: IDBStorageWrapper;
 
+const DEFAULT_CACHE_TIME = 60 * 24; // 24 hours
+
 export type CacheKeyFactory = (url: string) => string;
 export type CacheExpireFunc = (url: string) => Date;
 
@@ -16,7 +18,7 @@ export interface ICachingProps {
 export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
   const { keyFactory, expireFunc, idbParams } = {
     keyFactory: (url: string) => getHashCode(url.toLowerCase()).toString(),
-    expireFunc: () => dateAdd(new Date(), 'minute',1),
+    expireFunc: () => dateAdd(new Date(), 'minute', DEFAULT_CACHE_TIME),
     ...props,
   };
 
@@ -39,11 +41,15 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
         idbStorageWrapper = new IDBStorageWrapper(idbParams);
       }
 
-      let indexdbData = await idbStorageWrapper.get(key);
+      let indexdbData;
+      try {
+        indexdbData = await idbStorageWrapper.get(key);
+      } catch (err) {
+        console.log(`IDBCaching(idbCacheObserver): ${err}.`);
+      }
 
       if (indexdbData == null) {
         //  falling back to network to update cache
-
         this.on.post(async function (url: URL, result1: any) {
           let expiryDate = expireFunc(url.toString()) || new Date();
           await idbStorageWrapper.put(key, result1, expiryDate);

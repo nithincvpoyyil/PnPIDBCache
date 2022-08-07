@@ -93,7 +93,7 @@ export class IDBStorageWrapper {
           if (idbData && idbData.indexedDBCache) {
             let isExpired = idbData.expiry <= new Date();
             if (isExpired) {
-              this.delete(key);
+              await this.delete(key);
               return null;
             } else {
               return idbData.data as T;
