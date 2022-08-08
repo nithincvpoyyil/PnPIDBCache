@@ -14,6 +14,8 @@ export interface IIDBValue<T = any> {
 export const DEFAULT_DB_NAME = 'IDBStorgeDBForPnP';
 export const DEFAULT_STORE_NAME = 'IDBStorgeDBStoreNameForPnP';
 
+export const defaultIDBStoreParams: ICustomStoreParams = { dbName: DEFAULT_DB_NAME, storeName: DEFAULT_STORE_NAME };
+
 export class IDBStorage<T = any> {
   private _idbStore: UseStore | undefined;
   private isIndexedDBError: boolean = false;
@@ -70,7 +72,7 @@ export class IDBStorageWrapper {
 
   constructor(private customStoreparams?: ICustomStoreParams) {
     if (!customStoreparams || !customStoreparams.dbName || !customStoreparams.storeName) {
-      this.customStoreparams = { dbName: DEFAULT_DB_NAME, storeName: DEFAULT_STORE_NAME };
+      this.customStoreparams = defaultIDBStoreParams;
     }
     this.idbStorage = new IDBStorage(this.customStoreparams);
   }

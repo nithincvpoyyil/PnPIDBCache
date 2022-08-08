@@ -1,8 +1,6 @@
 import { IQueryableInternal, Queryable, QueryablePreObserver } from '@pnp/queryable';
 import { getHashCode, dateAdd, TimelinePipe } from '@pnp/core';
-import { ICustomStoreParams, IDBStorageWrapper } from './IDBStorage';
-
-let idbStorageWrapper: IDBStorageWrapper;
+import { defaultIDBStoreParams, ICustomStoreParams, IDBStorageWrapper } from './IDBStorage';
 
 const DEFAULT_CACHE_TIME = 60 * 24; // 24 hours
 
@@ -16,11 +14,17 @@ export interface ICachingProps {
 }
 
 export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
-  const { keyFactory, expireFunc, idbParams } = {
+  const { keyFactory, expireFunc } = {
     keyFactory: (url: string) => getHashCode(url.toLowerCase()).toString(),
     expireFunc: () => dateAdd(new Date(), 'minute', DEFAULT_CACHE_TIME),
     ...props,
   };
+
+  let idbParams = props?.idbParams;
+
+  if (!idbParams || !idbParams.dbName || !idbParams.storeName) {
+    idbParams = defaultIDBStoreParams;
+  }
 
   const idbCacheObserver: QueryablePreObserver = async function (
     this: IQueryableInternal,
@@ -36,12 +40,9 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
     if (/get/i.test(method) || cacheHeader) {
       //@ts-ignore
       const key = init?.headers['X-PnP-CacheKey'] ? init.headers['X-PnP-CacheKey'] : keyFactory(url.toString());
-
-      if (!idbStorageWrapper) {
-        idbStorageWrapper = new IDBStorageWrapper(idbParams);
-      }
-
+      let idbStorageWrapper = new IDBStorageWrapper(idbParams);
       let indexdbData;
+
       try {
         indexdbData = await idbStorageWrapper.get(key);
       } catch (err) {

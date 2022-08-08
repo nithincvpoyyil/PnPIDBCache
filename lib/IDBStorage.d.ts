@@ -9,6 +9,7 @@ export interface IIDBValue<T = any> {
 }
 export declare const DEFAULT_DB_NAME = "IDBStorgeDBForPnP";
 export declare const DEFAULT_STORE_NAME = "IDBStorgeDBStoreNameForPnP";
+export declare const defaultIDBStoreParams: ICustomStoreParams;
 export declare class IDBStorage<T = any> {
     private _idbStore;
     private isIndexedDBError;
