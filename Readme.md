@@ -5,7 +5,7 @@
 **Backstory**: From my knowledge, session/local storage allows us to store a maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw a 'storage quota exceeded' error if the storage is full. I'm developing a content-heavy site that relies heavily on caching, so, I've decided to create an indexedDB caching wrapper for the PnPJS. Please check this thread [ PnP feature request](https://github.com/pnp/pnpjs/issues/2046) for more details.
 
 Key features:
-- It allows us to add indexed as a cache storage
+- It allows us to add indexedDB as a cache storage
 - Supports browsers only (NodeJS - not supported).
 - Deletes expired cache items
 - Customizable cache expiry, cache key functions & DB parameters
