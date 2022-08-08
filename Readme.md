@@ -1,15 +1,14 @@
 # PnPJS indexedDB caching support
 
-**@simpletech/pnp-idb-cache** is a cache wrapper utility for the PnPJS v3 library. Current PnPJs v3 does not have support for indexedDB as cache storage and this library helps you to use indexeddb as cache storage on your Sahrepoint sites. It is built using idb-keyval & @pnp/core.
+**@simpletech/pnp-idb-cache** is a cache wrapper utility for the PnPJS v3 library. Current PnPJs v3 does not have support for indexedDB as cache storage and this library helps you to use indexeddb as cache storage on your Sharepoint sites. It is built using idb-keyval & @pnp/core.
 
-**Backstory**: From my knowledge, session/local storage allow us to store maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw 'storage quota exceeded' error, if the storage is full. I'm developing a content-heavy site which relies heavily on caching, so, I've decided to create a indexedDB caching wrapper for the PnPJS. Please check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments for more details.
+**Backstory**: From my knowledge, session/local storage allows us to store a maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw a 'storage quota exceeded' error if the storage is full. I'm developing a content-heavy site that relies heavily on caching, so, I've decided to create an indexedDB caching wrapper for the PnPJS. Please check this thread [ PnP feature request](https://github.com/pnp/pnpjs/issues/2046) for more details.
 
 Key features:
-
-- It allow us to add idexeddb as a cache storage
-- Supports browsers only (NodeJS - not supported).
+- It allows us to add indexed as a cache storage
+- Supports browsers only (NodeJS - not supported).
 - Deletes expired cache items
-- Customisable cache expiry, cache key functions & DB parameters
+- Customizable cache expiry, cache key functions & DB parameters
 - More storage capacity than storage APIs
 
 ## Installation
