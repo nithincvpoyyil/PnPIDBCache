@@ -21,6 +21,8 @@ yarn add @simpletech/pnp-idb-cache
 
 ## Usage
 
+Check the [demo spfx project](https://github.com/nithincvpoyyil/idb-cache-spfx)
+
 ```JavaScript
 
 import { IDBCaching } from "@simpletech/pnp-idb-cache";
@@ -28,11 +30,13 @@ import { IDBCaching } from "@simpletech/pnp-idb-cache";
 
 /**
  * With default parameters
- * 
- * CacheKey - a random unique id will be generated
- * Expiry - function will return Date object with +24 hours
+ *
+ * if you have not passed any cache parameters, it'll fallback to default parameters as follows
+ *
+ * keyFactory - a random unique id will be generated as cacheKey
+ * expireFunc -  default function, returns Date object with +24 hours
  * dbParams - default DB and table name will be used.
- * 
+ *
  * */
 function getItems() {
     sp = spfi().using(SPFx(this.context));
@@ -57,11 +61,11 @@ function getItems() {
 
 /**
  * With custom caching parameters
- * 
+ *
  * expiry function - returning Date object with +30 seconds
  * keyFactory - to return custom key
  * idbParams - for custom indexeddb params - DB name and table name for cache storage
- * 
+ *
  * */
 let cachingParams ={
           expireFunc: () => {
@@ -90,7 +94,7 @@ Fork it! & submit your PR
 
 ## History
 
-Version 1.1.0 (08/08/2022) - Initial version 
+Version 1.1.0 (08/08/2022) - Initial version
 
 ## License
 
