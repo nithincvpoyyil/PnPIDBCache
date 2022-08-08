@@ -1,6 +1,6 @@
 {
   "name": "@simpletech/pnp-idb-cache",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Custom caching function for the PnP v3 request caching with the help indexeddb",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,10 +10,11 @@
     "build": "gulp"
   },
   "keywords": [
+    "indexeddb spfx",
     "pnp caching",
-    "indexeddb pnp caching",
     "@pnp/queryable/caching",
-    "PnP custom caching"
+    "PnP custom caching",
+    "PnPJS V3"
   ],
   "author": "Nithin C Valappil",
   "license": "MIT",
