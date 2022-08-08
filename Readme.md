@@ -2,7 +2,7 @@
 
 PnP-indexedDB is a cache wrapper util for the PnPv3 library for SPFx web applications. It helps you to use indexeddb as cache storage on your Sahrepoint Sites. It is built using idb-keyval, @pnp/core.
 
-**Backstory**: As per my knowledge, session/local storage allows us to store maximum of 10Mb (varies with browser) of data per domain/host. Due to this storgae limitation, PnPStorageWrapper is throwing 'storage quota exceeded' error. In our case, its a content-heavy website, updated infrequently and hevily relies on caching.
+**Backstory**: As per my knowledge, session/local storage allows us to store maximum of 10Mb (varies with browser) of data per domain/host. Due to this storage limitation, PnPStorageWrapper is throwing 'storage quota exceeded' error in our case. We are developing a content-heavy website and heavily relies on caching. Also, check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments of @juliemturner + @patrick-rodgers
 
 Key features:
 
@@ -16,6 +16,7 @@ Key features:
 npm install @simpletech/pnp-idb-cache
 
 yarn add @simpletech/pnp-idb-cache
+
 ```
 
 ## Usage
