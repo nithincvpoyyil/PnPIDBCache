@@ -1,14 +1,16 @@
 # PnP indexedDB caching
 
-PnP-indexedDB is a cache wrapper util for the PnPv3 library for SPFx web applications. It helps you to use indexeddb as cache storage on your Sahrepoint Sites. It is built using idb-keyval, @pnp/core.
+@simpletech/pnp-idb-cache is a cache wrapper utility for the PnPJS v3 library.By default, PnP v3 doesnot have support for indexedDB as cache storage. This library helps you to use indexeddb as cache storage on your Sahrepoint sites. It is built using idb-keyval & @pnp/core.
 
-**Backstory**: As per my knowledge, session/local storage allows us to store maximum of 10Mb (varies with browser) of data per domain/host. Due to this storage limitation, PnPStorageWrapper is throwing 'storage quota exceeded' error in our case. We are developing a content-heavy website and heavily relies on caching. Also, check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments of @juliemturner + @patrick-rodgers
+**Backstory**: From my knowledge, session/local storage allow us to store maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw 'storage quota exceeded' error, if the storage is full. Our team is developing a content-heavy website which heavily relies on caching. Check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments for more details.
 
 Key features:
 
-- A caching allow us to add idexeddb as a cache storage
-- Its a browsers only package - not support for NodeJS
-- This enable us to overcome LocalStorage/SessionStorage quota limit per domain
+- It allow us to add idexeddb as a cache storage
+- Supports browsers only (NodeJS - not supported).
+- Deletes expired cache items
+- Customisable cache expiry, cache key functions & DB parameters
+- More storage capacity than storage APIs
 
 ## Installation
 
@@ -21,6 +23,8 @@ yarn add @simpletech/pnp-idb-cache
 
 ## Usage
 
+Check [demo project](https://github.com/nithincvpoyyil/idb-cache-spfx) for the SPFx implementation
+
 ```JavaScript
 
 import { IDBCaching } from "@simpletech/pnp-idb-cache";
@@ -28,11 +32,13 @@ import { IDBCaching } from "@simpletech/pnp-idb-cache";
 
 /**
  * With default parameters
- * 
- * CacheKey - a random unique id will be generated
- * Expiry - function will return Date object with +24 hours
+ *
+ * if you have not passed any cache parameters, it'll fallback to default parameters as follows
+ *
+ * keyFactory - a random unique id will be generated as cacheKey
+ * expireFunc -  default function, returns Date object with +24 hours
  * dbParams - default DB and table name will be used.
- * 
+ *
  * */
 function getItems() {
     sp = spfi().using(SPFx(this.context));
@@ -57,11 +63,11 @@ function getItems() {
 
 /**
  * With custom caching parameters
- * 
+ *
  * expiry function - returning Date object with +30 seconds
  * keyFactory - to return custom key
  * idbParams - for custom indexeddb params - DB name and table name for cache storage
- * 
+ *
  * */
 let cachingParams ={
           expireFunc: () => {
@@ -90,7 +96,7 @@ Fork it! & submit your PR
 
 ## History
 
-Version 1.1.0 (08/08/2022) - Initial version 
+Version 1.1.0 (08/08/2022) - Initial version
 
 ## License
 
