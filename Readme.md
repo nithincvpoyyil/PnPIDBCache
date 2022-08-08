@@ -22,6 +22,9 @@ yarn add @simpletech/pnp-idb-cache
 
 ```JavaScript
 
+import { IDBCaching } from "@simpletech/pnp-idb-cache";
+
+
 /**
  * With default parameters
  * 
