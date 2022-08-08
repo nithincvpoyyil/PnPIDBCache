@@ -1,7 +1,3 @@
-import { staleWhileRevalidate } from './IDBCacheFirst';
+import { IDBCaching } from './IDBCaching';
 
-export { staleWhileRevalidate };
-
-export function test() {
-  return 1;
-}
+export { IDBCaching };

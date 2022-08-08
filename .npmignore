@@ -1,0 +1,6 @@
+src/
+coverage/
+build/
+package-lock.json
+jestconfig.json
+yarn.lock

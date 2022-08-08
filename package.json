@@ -1,24 +1,47 @@
 {
-  "name": "pnpidbclientstoragewrapper",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@simpletech/pnp-idb-cache",
+  "version": "1.1.0",
+  "description": "Custom caching function for the PnP v3 request caching with the help indexeddb",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json  --coverage",
-    "build": "tsc"
+    "tsc-build": "tsc",
+    "build": "gulp"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "indexeddb spfx",
+    "pnp caching",
+    "@pnp/queryable/caching",
+    "PnP custom caching",
+    "PnPJS V3"
+  ],
+  "author": "Nithin C Valappil",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^28.1.6",
+    "gulp": "4.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "jest": "^28.1.3",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   },
   "dependencies": {
     "@pnp/core": "^3.5.1",
+    "@pnp/queryable": "^3.5.1",
     "idb-keyval": "^6.2.0"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nithincvpoyyil/PnPIDBCache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nithincvpoyyil/PnPIDBCache/issues"
+  },
+  "homepage": "https://github.com/nithincvpoyyil/PnPIDBCache#readme"
 }
