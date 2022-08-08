@@ -1,6 +1,6 @@
 {
   "name": "@simpletech/pnp-idb-cache",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Custom caching function for the PnP v3 request caching with the help indexeddb",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

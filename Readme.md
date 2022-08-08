@@ -22,6 +22,43 @@ yarn add @simpletech/pnp-idb-cache
 
 ```JavaScript
 
+/**
+ * With default parameters
+ * 
+ * CacheKey - a random unique id will be generated
+ * Expiry - function will return Date object with +24 hours
+ * dbParams - default DB and table name will be used.
+ * 
+ * */
+function getItems() {
+    sp = spfi().using(SPFx(this.context));
+
+    // get all the items from a list
+    sp.web.lists
+      // go with default cache params and expiry(24 hours) function
+      .using(IDBCaching())
+      .getByTitle("someListNameInTheSPSite")
+      .items()
+      .then(
+        (items) => {
+          console.log("data fetch completed", items);
+        },
+        () => {
+          console.log("data fetch failed");
+        }
+      );
+
+  }
+
+
+/**
+ * With custom caching parameters
+ * 
+ * expiry function - returning Date object with +30 seconds
+ * keyFactory - to return custom key
+ * idbParams - for custom indexeddb params - DB name and table name for cache storage
+ * 
+ * */
 let cachingParams ={
           expireFunc: () => {
             const time = new Date();
@@ -41,26 +78,6 @@ function getPageProperties() {
 }
 
 
-
-function getItems() {
-    sp = spfi().using(SPFx(this.context));
-
-    // get all the items from a list
-    sp.web.lists
-      // go with default cache params and expiry(24 hours) function
-      .using(IDBCaching())
-      .getByTitle("SomeListNameInTheSite")
-      .items()
-      .then(
-        (items) => {
-          console.log("data fetch completed", items);
-        },
-        () => {
-          console.log("data fetch failed");
-        }
-      );
-
-  }
 ```
 
 ## Contributing
@@ -69,7 +86,7 @@ Fork it! & submit your PR
 
 ## History
 
-Version 1.0.9 (08/08/2022) - Initial version 
+Version 1.1.0 (08/08/2022) - Initial version 
 
 ## License
 
