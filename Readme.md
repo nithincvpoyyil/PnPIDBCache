@@ -1,14 +1,16 @@
 # PnP indexedDB caching
 
-PnP-indexedDB is a cache wrapper util for the PnPv3 library for SPFx web applications. It helps you to use indexeddb as cache storage on your Sahrepoint Sites. It is built using idb-keyval, @pnp/core.
+@simpletech/pnp-idb-cache is a cache wrapper utility for the PnPJS v3 library.By default, PnP v3 doesnot have support for indexedDB as cache storage. This library helps you to use indexeddb as cache storage on your Sahrepoint sites. It is built using idb-keyval & @pnp/core.
 
-**Backstory**: As per my knowledge, session/local storage allows us to store maximum of 10Mb (varies with browser) of data per domain/host. Due to this storage limitation, PnPStorageWrapper is throwing 'storage quota exceeded' error in our case. We are developing a content-heavy website and heavily relies on caching. Also, check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments of @juliemturner + @patrick-rodgers
+**Backstory**: From my knowledge, session/local storage allow us to store maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw 'storage quota exceeded' error, if the storage is full. Our team is developing a content-heavy website which heavily relies on caching. Check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments for more details.
 
 Key features:
 
-- A caching allow us to add idexeddb as a cache storage
-- Its a browsers only package - not support for NodeJS
-- This enable us to overcome LocalStorage/SessionStorage quota limit per domain
+- It allow us to add idexeddb as a cache storage
+- Supports browsers only (NodeJS - not supported).
+- Deletes expired cache items
+- Customisable cache expiry, cache key functions & DB parameters
+- More storage capacity than storage APIs
 
 ## Installation
 
@@ -21,7 +23,7 @@ yarn add @simpletech/pnp-idb-cache
 
 ## Usage
 
-Check the [demo spfx project](https://github.com/nithincvpoyyil/idb-cache-spfx)
+Check [demo project](https://github.com/nithincvpoyyil/idb-cache-spfx) for the SPFx implementation
 
 ```JavaScript
 
