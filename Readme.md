@@ -2,7 +2,7 @@
 
 @simpletech/pnp-idb-cache is a cache wrapper utility for the PnPJS v3 library.By default, PnP v3 doesnot have support for indexedDB as cache storage. This library helps you to use indexeddb as cache storage on your Sahrepoint sites. It is built using idb-keyval & @pnp/core.
 
-**Backstory**: From my knowledge, session/local storage allow us to store maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw 'storage quota exceeded' error, if the storage is full. Our team is developing a content-heavy website which heavily relies on caching. Check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments for more details.
+**Backstory**: From my knowledge, session/local storage allow us to store maximum of 10Mb (varies with browser) data per domain/host. Due to this limitation, PnPStorageWrapper will throw 'storage quota exceeded' error, if the storage is full. I'm developing a content-heavy site which relies heavily on caching, so, I've decided to create a indexedDB caching wrapper for the PnPJS. Please check this PnP [feature request](https://github.com/pnp/pnpjs/issues/2046) and comments for more details.
 
 Key features:
 
