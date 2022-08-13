@@ -1,3 +1,3 @@
-import { IDBCaching } from './IDBCaching';
+import { IDBCaching, deleteAllCacheItems, deleteExpiredCacheItems } from './IDBCaching';
 
-export { IDBCaching };
+export { IDBCaching, deleteAllCacheItems, deleteExpiredCacheItems };

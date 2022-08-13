@@ -69,3 +69,25 @@ export function IDBCaching(props?: ICachingProps): TimelinePipe<Queryable> {
     return instance;
   };
 }
+
+export function deleteExpiredCacheItems(idbParams?: ICustomStoreParams) {
+  try {
+    if (!idbParams || !idbParams.dbName || !idbParams.storeName) {
+      idbParams = defaultIDBStoreParams;
+    }
+    new IDBStorageWrapper(idbParams).deleteExpired();
+  } catch (error) {
+    console.error('Error: deleteExpiredCacheItems(IDBStorageWrapper)', error);
+  }
+}
+
+export function deleteAllCacheItems(idbParams?: ICustomStoreParams) {
+  try {
+    if (!idbParams || !idbParams.dbName || !idbParams.storeName) {
+      idbParams = defaultIDBStoreParams;
+    }
+    new IDBStorageWrapper(idbParams).deleteAll();
+  } catch (error) {
+    console.error('Error: deleteExpiredCacheItems(IDBStorageWrapper)', error);
+  }
+}

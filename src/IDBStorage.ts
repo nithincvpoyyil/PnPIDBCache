@@ -42,6 +42,12 @@ export class IDBStorage<T = any> {
     })();
   }
 
+  public get keys(): Promise<string[]> {
+    return (async () => {
+      let keyList = await keys(this._idbStore);
+      return keyList as string[];
+    })();
+  }
   public clear(): Promise<void> {
     return clear(this._idbStore);
   }
@@ -145,7 +151,30 @@ export class IDBStorageWrapper {
   }
 
   /**
-   * Deletes any expired items
+   * Deletes all items
+   */
+  public deleteAll(): Promise<void> {
+    if (this.idbStorage.indexedDBError) {
+      return Promise.resolve();
+    }
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        this.idbStorage.clear().then(
+          () => {
+            resolve();
+          },
+          () => {
+            reject();
+          },
+        );
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  /**
+   * Deletes all expired items
    */
   public deleteExpired(): Promise<void> {
     if (this.idbStorage.indexedDBError) {
@@ -153,7 +182,22 @@ export class IDBStorageWrapper {
     }
     return new Promise<void>(async (resolve, reject) => {
       try {
-        this.idbStorage.clear().then(
+        let keyList = await this.idbStorage.keys;
+        let promiseList = [];
+
+        for (let i = 0; i < keyList.length; i++) {
+          let key = keyList[i];
+          let idbData: IIDBValue = await this.idbStorage.getItem(key);
+          if (idbData && idbData.indexedDBCache) {
+            let isExpired = idbData.expiry <= new Date();
+            if (isExpired) {
+              let deletePromise = this.idbStorage.removeItem(key);
+              promiseList.push(deletePromise);
+            }
+          }
+        }
+
+        Promise.all(promiseList).then(
           () => {
             resolve();
           },
